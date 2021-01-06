@@ -4,20 +4,15 @@ let id = "940";
 
 function buildPlots(id) {
       
-    d3.json("samples.json").then(function(data) {
+    d3.json("samples.json").then(function(allData) {
 
-        let samplesArray = data.samples
-        let filteredData = samplesArray.filter(d => d.id === id);
-        let sampleValues = filteredData[0].sample_values;
-        let otuIds = filteredData[0].otu_ids;
-        let otuLabels = filteredData[0].otu_labels;
+        // grab sample data from json object and filter by id
+        let samplesArray = allData.samples
+        let filteredSamples = samplesArray.filter(d => d.id === id);
+        let sampleValues = filteredSamples[0].sample_values;
+        let otuIds = filteredSamples[0].otu_ids;
+        let otuLabels = filteredSamples[0].otu_labels;
       
-        console.log(data);
-        console.log(filteredData);
-        console.log(sampleValues);
-        console.log(otuIds);
-        console.log(otuLabels);
-
         var trace1 = {
             x: otuIds,
             y: sampleValues,
@@ -27,18 +22,43 @@ function buildPlots(id) {
               color: otuIds,
               size: sampleValues
             }
-          };
+        };
           
-          var data = [trace1];
+        var data = [trace1];
           
-          var layout = {
+        var layout = {
             xaxis: {title: 'OTU ID'},
             showlegend: false,
-            height: 600,
-            width: 1200
-          };
+            height: 500,
+            width: 1000
+        };
           
-          Plotly.newPlot('bubble', data, layout);
+        Plotly.newPlot('bubble', data, layout);
+
+        // grab metadata from json object and filter by id
+        let metaArray = allData.metadata
+        let filteredMeta = metaArray.filter(d => d.id.toString() === id);
+        let ethnicity = filteredMeta[0].ethnicity;
+        let gender = filteredMeta[0].gender;
+        let age = filteredMeta[0].age.toString();
+        let location = filteredMeta[0].location;
+        let bbtype = filteredMeta[0].bbtype;
+        let wfreq = filteredMeta[0].wfreq;
+
+        document.getElementById("sample-metadata").innerHTML = `ID: ${id}\
+        <br>Ethnicity: ${ethnicity}\
+        <br>Gender: ${gender}\
+        <br>Age: ${age}\
+        <br>Location: ${location}\
+        <br>bbtype: ${bbtype}\
+        <br>wfreq: ${wfreq}`;
+
+
+        console.log(allData);
+        console.log(metaArray);
+        console.log(filteredMeta);
+        console.log(ethnicity);
+        
         
     });
 };
