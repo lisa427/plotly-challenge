@@ -96,6 +96,29 @@ function buildPlots(id) {
         <br>Location: ${location}\
         <br>bbtype: ${bbtype}\
         <br>wfreq: ${wfreq}`;
+
+        // gauge chart
+        // set up data for Plotly gauge chart
+        // use washing frequency variable from text box
+        var data3 = [
+            {
+                domain: { x: [0, 1], y: [0, 1] },
+                value: wfreq,
+                title: { text: "Belly Button Washing Frequency<br>Scrubs per Week" },
+                type: "indicator",
+                mode: "gauge+number",
+                gauge: { axis: { range: [null, 9] } } 
+            }
+        ];
+        
+        var layout3 = { 
+            width: 500, 
+            height: 400, 
+            margin: { t: 0, b: 0 } 
+        };
+
+        // plot gauge chart
+        Plotly.newPlot('gauge', data3, layout3);
                
     });
 };
@@ -111,8 +134,8 @@ function updateId() {
 };
 
 // get first id from json data and build plots
-d3.json("samples.json").then(function(data2) {
-    let id = data2.names[0];
+d3.json("samples.json").then(function(jsonData) {
+    let id = jsonData.names[0];
     buildPlots(id);
   });
 
