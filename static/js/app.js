@@ -35,6 +35,31 @@ function buildPlots(id) {
           
         Plotly.newPlot('bubble', data, layout);
 
+        // slice first 10 values from previously filtered data
+        let sampleValues10 = sampleValues.slice(0,10);
+        let otuIds10 = otuIds.slice(0,10);
+        let otuLabels10 = otuLabels.slice(0,10);
+
+        // convert IDs to text and add "OTU" 
+        otuIds10 = otuIds10.map(number => `OTU ${number}`);
+
+        var data2 = [{
+            type: 'bar',
+            x: sampleValues10,
+            y: otuIds10,
+            orientation: 'h',
+            text: otuLabels10
+          }];
+          
+          Plotly.newPlot('bar', data2);
+
+        console.log(allData);
+        console.log(filteredSamples);
+        console.log(sampleValues);
+        console.log(sampleValues10);
+        console.log(otuIds10);
+        console.log(otuLabels10);
+
         // grab metadata from json object and filter by id
         let metaArray = allData.metadata
         let filteredMeta = metaArray.filter(d => d.id.toString() === id);
@@ -54,10 +79,7 @@ function buildPlots(id) {
         <br>wfreq: ${wfreq}`;
 
 
-        console.log(allData);
-        console.log(metaArray);
-        console.log(filteredMeta);
-        console.log(ethnicity);
+        
         
         
     });
