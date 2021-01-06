@@ -48,7 +48,12 @@ function buildPlots(id) {
             x: sampleValues10,
             y: otuIds10,
             orientation: 'h',
-            text: otuLabels10
+            text: otuLabels10,
+            transforms: [{
+                type: 'sort',
+                target: 'y',
+                order: 'descending'
+              }]
           }];
           
           Plotly.newPlot('bar', data2);
