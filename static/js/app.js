@@ -10,7 +10,7 @@ d3.json("samples.json").then(function(namesData) {
     }
 });
 
-// function to build 3 charts (bubble, bar, and demographic text box)
+// function to build 4 charts (bubble, bar, text box, & gauge)
 function buildPlots(id) {
       
     d3.json("samples.json").then(function(allData) {
@@ -33,6 +33,7 @@ function buildPlots(id) {
             mode: 'markers',
             marker: {
               color: otuIds,
+              colorscale: 'Blues',
               size: sampleValues
             }
         };
@@ -41,6 +42,7 @@ function buildPlots(id) {
           
         var layout = {
             xaxis: {title: 'OTU ID'},
+            title: { text: "OTU Volumes" },
             showlegend: false,
             height: 500,
             width: 1000
@@ -72,8 +74,13 @@ function buildPlots(id) {
               }]
           }];
 
+          var layout2 = {
+            title: { text: "Top 10 OTUs" },
+            showlegend: false
+        };
+
           // plot bar chart
-          Plotly.newPlot('bar', data2);
+          Plotly.newPlot('bar', data2, layout2);
 
         // demographic text
         // grab metadata from json object and filter by id
@@ -107,7 +114,21 @@ function buildPlots(id) {
                 title: { text: "Belly Button Washing Frequency<br>Scrubs per Week" },
                 type: "indicator",
                 mode: "gauge+number",
-                gauge: { axis: { range: [null, 9] } } 
+                gauge: { 
+                    axis: { range: [null, 9] },
+                    bar: { color: "navy" },
+                    steps: [
+                        { range: [0, 1], color: "B3E5FC" },
+                        { range: [1, 2], color: "81D4FA" },
+                        { range: [2, 3], color: "4FC3F7" },
+                        { range: [3, 4], color: "29B6F6" },
+                        { range: [4, 5], color: "03A9FA" },
+                        { range: [5, 6], color: "039BE5" },
+                        { range: [6, 7], color: "0288D1" },
+                        { range: [7, 8], color: "0277BD" },
+                        { range: [8, 9], color: "01579B" }
+                      ]
+                    } 
             }
         ];
         
